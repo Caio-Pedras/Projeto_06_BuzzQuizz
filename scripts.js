@@ -1,7 +1,7 @@
 //Variaveis Globais
 const API = 'https://mock-api.driven.com.br/api/v6/buzzquizz/quizzes';
 //Start
-getAPI()
+//getAPI()
 //Funções
 function toggleHidden(element){
 console.log(element)
@@ -16,9 +16,13 @@ function pullQuizz (success){
     
     let quizzInnerHTML =''
     for(let i = 0; i < success.data.length; i++){
-       quizzInnerHTML += ` <div class="quizz">
-       <img src="${success.data[i].image}">
-       <h3> ${success.data[i].title}</h3>
+       quizzInnerHTML += ` 
+       <div class = "seletorQuizz">
+        <div class="quizz">
+        <img src="${success.data[i].image}">
+        <h3> ${success.data[i].title}</h3>
+        <div class="banner"></div>
+        </div>
        </div>`
     }
     console.log(quizzInnerHTML)
