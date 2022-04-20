@@ -6,6 +6,7 @@
 body{
     font-family: 'Roboto', sans-serif;
     background-color: #FAFAFA;
+    height: 100vh;
 }
 header{
     background-color: #EC362D;
@@ -13,7 +14,6 @@ header{
     color: #FFFFFF;
     height: 80px;
     width: 100%;
- 
     display: flex;
     align-items: center;
     justify-content: center;
@@ -22,7 +22,6 @@ header{
 }
 .container{
     margin:80px 10%;
-    
 }
 .myQuizz{
     width: 100%;
@@ -54,18 +53,22 @@ header{
     color: #000000;
     font-weight: 700;
     font-size: 22px;
-    margin-top: 150px;
+    margin-top: 80px;
     position: fixed ;
     top: 0;
     left:0;
     width: 100%;
     height: 100%;
-    text-align: center;
     background-color: #FAFAFA;
     display: flex;
     flex-direction: column;
-    align-items: center;
     justify-items: center;
+    align-items: center;
+    text-align: center;
+    overflow-y: scroll;
+}
+.section{
+    margin-top: 60px;
 }
 .inputQuizz{
     display: flex;
@@ -74,16 +77,17 @@ header{
     flex-direction: column;
     row-gap: 10px;
     padding: 20px;
-    width: 40%;
-    max-width: 600px;
-    min-width: 375px;
+    width: 100%; 
     margin-top: 30px;
+    height: auto;
+    text-align: left;
 }
 .inputQuizz input{
     height: 46px;
     border-radius: 5px;
     border: 1px solid #D1D1D1;
     padding: 10px 20px;
+    width: 100%; 
 }
 .createQuizz button{
     background-color: #EC362D;
@@ -103,4 +107,34 @@ header{
 }
 .hidden{
     display: none;
+}
+.section{
+    width: 40%;
+    max-width: 600px;
+    min-width: 375px;
+}
+.inputQuizz div{  
+    margin-top: 30px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+}
+.inputQuizz div p{  
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+.quizzes{
+    display:flex;
+    flex-wrap: wrap;
+    column-gap: 15px;
+    align-items: center;
+    justify-content: center;
+    font-size: 19px;
+    font-weight: 400;
+    color: #ff8fff;
+}
+.allQuizz img {
+    width: 340px;
+    height: 181px;
 }
