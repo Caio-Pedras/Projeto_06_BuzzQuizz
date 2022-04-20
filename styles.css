@@ -6,7 +6,8 @@
 body{
     font-family: 'Roboto', sans-serif;
     background-color: #FAFAFA;
-   
+    width: 100vw;
+    height: 100vh;
 }
 header{
     background-color: #EC362D;
@@ -72,7 +73,7 @@ header{
     justify-items: center;
     align-items: center;
     text-align: center;
-    overflow-y: scroll;
+    overflow-y: auto;
  }
 .section{
     margin-top: 60px;
@@ -134,7 +135,6 @@ header{
 .quizzes{
     display:flex;
     flex-wrap: wrap;
-    column-gap: 15px;
     align-items: center;
     font-size: 19px;
     font-weight: 400;
@@ -145,12 +145,11 @@ header{
     width: 340px;
     height: 180px;
 }
-.quizzes{
-    margin-top: 15px;
-}
 .seletorQuizz{
     position: relative;
     background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(0, 0, 0, 0.5) 65.1%, #000000 100%);
+    margin-left: 0px;
+    margin-bottom: 20px;
 }
 .quizz h3{
     position: absolute;
@@ -169,6 +168,9 @@ header{
     width: 100%;
 }
 @media (max-width: 1100px) {
+    .container{
+        min-width: 340px;
+    }
     .tittle{
         margin: auto;
         max-width: 340px;
