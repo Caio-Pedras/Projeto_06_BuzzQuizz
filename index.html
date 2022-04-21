@@ -87,12 +87,12 @@
         <div class="section infoQuizz">
             <p>Comece pelo Começo</p>
             <div class="inputQuizz">
-                <input type="text" placeholder="Título do seu quizz">
-                <input type="url" placeholder="URL da imagem">
+                <input type="text" data-ls-module="charCounter" minlength="20" maxlength="65" placeholder="Título do seu quizz">
+                <input type="url" pattern="https://" placeholder="URL da imagem">
                 <input type="number" placeholder="Quantidade de perguntas do quizz">
                 <input type="number" placeholder="Quantidade de níveis do quizz">
             </div>
-            <button onclick="toggleHidden('.section:nth-child(1)');toggleHidden('.section:nth-child(2)')">Prosseguir para criar perguntas</button>
+            <button onclick="verifyBasicInformation()">Prosseguir para criar perguntas</button>
         </div>
         <div class="section questionsQuizz hidden">
             <p>Crie suas Perguntas</p>
