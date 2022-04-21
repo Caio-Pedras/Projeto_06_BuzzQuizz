@@ -6,10 +6,9 @@
 body{
     font-family: 'Roboto', sans-serif;
     background-color: #FAFAFA;
-    width: 100vw;
-    height: 100vh;
 }
 header{
+    z-index: 1;
     background-color: #EC362D;
     box-shadow: 0px 4px 4px 0px #00000040;
     color: #FFFFFF;
@@ -25,9 +24,9 @@ header{
     top: 0;
 }
 .container{
-    margin:160px auto;
+    margin:180px auto;
     width: 90%;
-    min-width: 340px;
+    min-width: 1050px;
 }
 .myQuizz{
     width: 100%;
@@ -62,9 +61,6 @@ header{
     font-weight: 700;
     font-size: 22px;
     margin-top: 80px;
-    position: fixed ;
-    top: 0;
-    left:0;
     width: 100%;
     height: 100%;
     background-color: #FAFAFA;
@@ -73,7 +69,6 @@ header{
     justify-items: center;
     align-items: center;
     text-align: center;
-    overflow-y: auto;
  }
 .section{
     margin-top: 60px;
@@ -112,6 +107,7 @@ header{
     border:none;
     margin-top: 60px;
     cursor: pointer;
+    overflow-y: auto;
 }
 .hidden{
     display: none;
@@ -121,25 +117,25 @@ header{
     max-width: 600px;
     min-width: 375px;
 }
-.inputQuizz div{  
+.inputQuizz div{
     margin-top: 30px;
     width: 100%;
     display: flex;
     flex-direction: column;
     row-gap: 10px;
 }
-.inputQuizz div p{  
+.inputQuizz div p{
     font-size: 20px;
     margin-bottom: 10px;
 }
 .quizzes{
     display:flex;
     flex-wrap: wrap;
-    align-items: center;
     font-size: 19px;
     font-weight: 400;
     color: #ffffff;
     text-align: center;
+    margin-top: 15px;
 }
 .allQuizz img {
     width: 340px;
@@ -148,8 +144,9 @@ header{
 .seletorQuizz{
     position: relative;
     background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(0, 0, 0, 0.5) 65.1%, #000000 100%);
-    margin-left: 0px;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
+    margin-right: 20px;
+    width: 340px;
 }
 .quizz h3{
     position: absolute;
@@ -168,15 +165,20 @@ header{
     width: 100%;
 }
 @media (max-width: 1100px) {
-    .container{
-        min-width: 340px;
-    }
     .tittle{
         margin: auto;
         max-width: 340px;
     }
+    .seletorQuizz{
+        margin-right: auto;
+        margin-left: auto;
+    }
     .quizzes{
         justify-content: center;
         flex-direction: column;
+    }
+
+    .container{
+        min-width: 340px;
     }
 }
