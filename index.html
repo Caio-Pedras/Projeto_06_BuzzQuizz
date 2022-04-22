@@ -87,10 +87,10 @@
         <div class="section infoQuizz">
             <p>Comece pelo Começo</p>
             <div class="inputQuizz">
-                <input type="text" data-ls-module="charCounter" minlength="20" maxlength="65" placeholder="Título do seu quizz">
+                <input type="text" minlength="20" maxlength="65" placeholder="Título do seu quizz">
                 <input type="url" pattern="https://" placeholder="URL da imagem">
-                <input type="number" placeholder="Quantidade de perguntas do quizz">
-                <input type="number" placeholder="Quantidade de níveis do quizz">
+                <input type="number" min="0" placeholder="Quantidade de perguntas do quizz">
+                <input type="number" min="0" placeholder="Quantidade de níveis do quizz">
             </div>
             <button onclick="verifyBasicInformation()">Prosseguir para criar perguntas</button>
         </div>
@@ -125,15 +125,15 @@
         <div class="section nivelQuizz hidden">
             <p>Agora, decida os níveis</p>
             <div class="inputQuizz">
-                    <div class="nivel">
-                        <p>Nivel 1</p>
-                        <input type="text" placeholder="Título do nível">
-                        <input type="number" placeholder="% de acerto mínima">
-                        <input type="url" placeholder="URL da imagem do nível">
-                        <input type="text" placeholder="Descrição do nível">
-                    </div>    
+                <div class="nivel">
+                    <p>Nivel 1</p>
+                    <input type="text" minlength="10" placeholder="Título do nível">
+                    <input type="number" min ="0" max="100" placeholder="% de acerto mínima">
+                    <input type="url" placeholder="URL da imagem do nível">
+                    <input type="text" placeholder="Descrição do nível">
+                </div>    
             </div>
-            <button>Finalizar Quizz</button>
+            <button onclick="verifyQuizzLevels()">Finalizar Quizz</button>
         </div>
     </div>
    

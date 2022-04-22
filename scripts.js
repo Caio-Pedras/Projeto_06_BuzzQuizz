@@ -93,13 +93,9 @@ function checkSuccess (success) {
 
 function verifyBasicInformation() {
 	let quizzTitle =  document.querySelector(".infoQuizz input:nth-child(1)").value;
-	console.log(quizzTitle.length);
 	let quizzURL = document.querySelector(".infoQuizz input:nth-child(2)").value;
-	console.log(quizzURL);
 	let quizzNumberQuestions = document.querySelector(".infoQuizz input:nth-child(3)").value;
-	console.log(quizzNumberQuestions);
 	let quizzNumberLevels = document.querySelector(".infoQuizz input:nth-child(4)").value;
-	console.log(quizzNumberLevels);
 
 	if (quizzTitle === "" || quizzTitle.length > 65 || quizzTitle.length < 20 || quizzURL.startsWith("http") === false || quizzURL === "" || quizzNumberQuestions === "" || quizzNumberQuestions < 3 || quizzNumberLevels === "" || quizzNumberLevels < 2) {
 		alert("Preencha os dados corretamente");
@@ -109,5 +105,22 @@ function verifyBasicInformation() {
 		console.log(objetoQuizz);
 		toggleHidden('.section:nth-child(1)');
 		toggleHidden('.section:nth-child(2)');
+	}
+}
+
+function verifyQuizzLevels() {
+	let levelTitle = document.querySelector("nivelQuizz input:nth-child(1)").value;
+	console.log(levelTitle);
+	let levelPercentage = document.querySelector("nivelQuizz input:nth-child(2)").value;
+	console.log(levelPercentage);
+	let levelURL = document.querySelector("nivelQuizz input:nth-child(3)").value;
+	console.log(levelURL);
+	let levelDescription = document.querySelector("nivelQuizz input:nth-child(4)").value;
+	onsole.log(levelDescription);
+
+	if (levelTitle === "" || levelTitle.length < 10 || levelPercentage === "" || levelPercentage < 0 || levelPercentage > 100 || levelURL === "" || levelURL.startsWith("http") === false || levelDescription.length < 30 ) {
+		alert("Preencha os dados corretamente");
+	} else {
+		console.log("Finalizou");
 	}
 }
