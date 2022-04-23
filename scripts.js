@@ -4,7 +4,7 @@ let arrayQuizz = [];
 
 //Start
 
-//getAPI()
+getAPI()
 
 //Funções
 function toggleHidden(element){
@@ -35,13 +35,18 @@ function checkSuccess (success) {
     console.log(success)
 }
 
+function isValidURL(string) {
+	let res = string.match(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g);
+	return (res !== null)
+};
+
 function verifyBasicInformation() {
 	let quizzTitle =  document.querySelector(".infoQuizz input:nth-child(1)").value;
 	let quizzURL = document.querySelector(".infoQuizz input:nth-child(2)").value;
 	let quizzNumberQuestions = document.querySelector(".infoQuizz input:nth-child(3)").value;
 	let quizzNumberLevels = document.querySelector(".infoQuizz input:nth-child(4)").value;
 
-	if (quizzTitle === "" || quizzTitle.length > 65 || quizzTitle.length < 20 || quizzURL.startsWith("http") === false || quizzURL === "" || quizzNumberQuestions === "" || quizzNumberQuestions < 3 || quizzNumberLevels === "" || quizzNumberLevels < 2) {
+	if (quizzTitle === "" || quizzTitle.length > 65 || quizzTitle.length < 20 || isValidURL(quizzURL) === false || quizzURL === "" || quizzNumberQuestions === "" || quizzNumberQuestions < 3 || quizzNumberLevels === "" || quizzNumberLevels < 2) {
 		alert("Preencha os dados corretamente");
 	} else {
 		//createArrayObjetos();
