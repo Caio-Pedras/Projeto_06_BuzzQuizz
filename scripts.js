@@ -4,7 +4,7 @@ let arrayQuizz = [];
 
 //Start
 
-getAPI()
+//getAPI()
 
 //Funções
 function toggleHidden(element){
@@ -118,7 +118,7 @@ function verifyQuizzLevels() {
 	let levelDescription = document.querySelectorAll(".nivelQuizz input:nth-child(5)").value;
 	console.log(levelDescription);
 
-	if (levelTitle === "" || levelTitle.length < 10 || levelPercentage === "" || levelPercentage < 0 || levelPercentage > 100 || levelURL === "" || levelURL.startsWith("http") === false || levelDescription.length < 30 ) {
+	if (levelTitle === "" || levelTitle.length < 10 || levelPercentage === "" || levelPercentage < 0 || levelPercentage > 100 || levelURL === "" || isValidURL(levelURL) === false || levelDescription.length < 30 ) {
 		alert("Preencha os dados corretamente");
 	} else {
 		console.log("Finalizou");
