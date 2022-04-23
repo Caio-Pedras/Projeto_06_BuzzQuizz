@@ -109,16 +109,27 @@ function organizeQuestionsLevels(responseUm, responseDois) {
 }
 
 function verifyQuizzLevels() {
-	let levelTitle = document.querySelectorAll(".nivelQuizz input:nth-child(2)").value;
-	console.log(levelTitle);
-	let levelPercentage = document.querySelectorAll(".nivelQuizz input:nth-child(3)").value;
-	console.log(levelPercentage);
-	let levelURL = document.querySelectorAll(".nivelQuizz input:nth-child(4)").value;
-	console.log(levelURL);
-	let levelDescription = document.querySelectorAll(".nivelQuizz input:nth-child(5)").value;
-	console.log(levelDescription);
+	let contador = document.querySelectorAll(".nivelQuizz .nivel").length;
+	let contadorDois = 0;
+	let contadorTres = 0;
+	let levelTitle;
+	let levelPercentage;
+	let levelURL;
+	let levelDescription;
 
-	if (levelTitle === "" || levelTitle.length < 10 || levelPercentage === "" || levelPercentage < 0 || levelPercentage > 100 || levelURL === "" || isValidURL(levelURL) === false || levelDescription.length < 30 ) {
+	for (let i = 1; i <= contador; i++) {
+		levelTitle = document.querySelector(".nivelQuizz input:nth-child(2)").value;
+		levelPercentage = document.querySelector(".nivelQuizz input:nth-child(3)").value;
+		levelURL = document.querySelector(".nivelQuizz input:nth-child(4)").value;
+		levelDescription = document.querySelector(".nivelQuizz input:nth-child(5)").value;
+		if (levelTitle === "" || levelTitle.length < 10 || levelPercentage === "" || levelPercentage < 0 || levelPercentage > 100 || levelURL === "" || isValidURL(levelURL) === false || levelDescription.length < 30 ) {
+			contadorDois += 1;
+		}
+		if (levelPercentage === 0) {
+			contadorTres += 1;
+		}
+	}	
+	if (contadorDois !== 0 && contadorTres !== 1) {
 		alert("Preencha os dados corretamente");
 	} else {
 		console.log("Finalizou");

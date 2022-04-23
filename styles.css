@@ -126,7 +126,7 @@ header{
     flex-direction: column;
     row-gap: 10px;
 }
-.inputQuizz div p{
+.inputQuizz div p {
     font-size: 20px;
     margin-bottom: 10px;
 }
