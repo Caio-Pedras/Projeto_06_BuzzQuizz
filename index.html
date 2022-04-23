@@ -55,12 +55,18 @@
         <div class="section questionsQuizz hidden">
             <p>Crie suas Perguntas</p>
             <div class="inputQuizz"></div>
-            <button onclick="toggleHidden('.section:nth-child(3)');toggleHidden('.section:nth-child(2)')">Prosseguir para criar níveis</button>
+            <button onclick="verifyQuizzQuestions()">Prosseguir para criar níveis</button>
         </div>
         <div class="section nivelQuizz hidden">
             <p>Agora, decida os níveis</p>
             <div class="inputQuizz"></div>
             <button onclick="verifyQuizzLevels()">Finalizar Quizz</button>
+        </div>
+        <div class="section quizzReady hidden">
+            <p>Seu quizz está pronto!</p>
+            <img src="" alt="">
+            <button>Acessar Quizz</button>
+            <h4 onclick="window.location.reload()">Voltar para home</h4>
         </div>
     </div>
     
