@@ -3,6 +3,7 @@ const API = 'https://mock-api.driven.com.br/api/v6/buzzquizz/quizzes';
 let arrayQuizz = [];
 
 //Start
+
 //getAPI()
 
 //Funções
@@ -18,14 +19,14 @@ function pullQuizz (success){
     
     let quizzInnerHTML = "";
     for(let i = 0; i < success.data.length; i++){
-       quizzInnerHTML += ` 
-       <div class = "seletorQuizz">
-        <div class="quizz">
-        <img src="${success.data[i].image}">
-        <h3> ${success.data[i].title}</h3>
-        <div class="banner"></div>
-        </div>
-       </div>`
+    	quizzInnerHTML += ` 
+       	<div class = "seletorQuizz">
+       		<div class="quizz">
+        		<img src="${success.data[i].image}">
+				<div class="banner"></div>
+        		<h3> ${success.data[i].title}</h3>
+        	</div>
+       	</div>`
     }
     document.querySelector('.quizzes').innerHTML=quizzInnerHTML;
 }
@@ -59,8 +60,36 @@ function createArrayObjetos() {
 }
 
 function organizeQuestionsLevels(responseUm, responseDois) {
+	let numberQuestions = document.querySelector(".questionsQuizz .inputQuizz");
 	let numberLevels = document.querySelector(".nivelQuizz .inputQuizz");
+	numberQuestions.innerHTML = "";
 	numberLevels.innerHTML = "";
+	for (let j = 1; j <= responseUm; j++) {
+		numberQuestions.innerHTML += `
+		<div class="question">
+            <p>Pergunta ${j}</p>
+            <input type="text" placeholder="Texto da pergunta">
+            <input type="text" placeholder="Cor de fundo da pergunta">
+        </div>    
+        <div class="correctAnswer">
+            <p>Resposta correta</p>
+            <input type="text" placeholder="Resposta correta">
+            <input type="url" placeholder="URL da imagem">
+        </div>    
+        <div class="incorrectAnswer">
+            <p>Respostas incorretas</p>
+                    
+            <input type="text" placeholder="Resposta incorreta 1">
+            <input type="url" placeholder="URL da imagem 1">
+                
+            <input type="text" placeholder="Resposta incorreta 2">
+            <input type="url" placeholder="URL da imagem 2">
+                    
+            <input type="text" placeholder="Resposta incorreta 3">
+            <input type="url" placeholder="URL da imagem 3">
+        </div>                
+		`;
+	}
 	for (let i = 1; i <= responseDois; i++) {
 		numberLevels.innerHTML += `
 		<div class="nivel">
@@ -75,13 +104,13 @@ function organizeQuestionsLevels(responseUm, responseDois) {
 }
 
 function verifyQuizzLevels() {
-	let levelTitle = document.querySelector(".nivelQuizz input:nth-child(2)").value;
+	let levelTitle = document.querySelectorAll(".nivelQuizz input:nth-child(2)").value;
 	console.log(levelTitle);
-	let levelPercentage = document.querySelector(".nivelQuizz input:nth-child(3)").value;
+	let levelPercentage = document.querySelectorAll(".nivelQuizz input:nth-child(3)").value;
 	console.log(levelPercentage);
-	let levelURL = document.querySelector(".nivelQuizz input:nth-child(4)").value;
+	let levelURL = document.querySelectorAll(".nivelQuizz input:nth-child(4)").value;
 	console.log(levelURL);
-	let levelDescription = document.querySelector(".nivelQuizz input:nth-child(5)").value;
+	let levelDescription = document.querySelectorAll(".nivelQuizz input:nth-child(5)").value;
 	console.log(levelDescription);
 
 	if (levelTitle === "" || levelTitle.length < 10 || levelPercentage === "" || levelPercentage < 0 || levelPercentage > 100 || levelURL === "" || levelURL.startsWith("http") === false || levelDescription.length < 30 ) {
