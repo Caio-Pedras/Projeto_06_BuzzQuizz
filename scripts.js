@@ -1,6 +1,11 @@
 //Variaveis Globais
 const API = 'https://mock-api.driven.com.br/api/v6/buzzquizz/quizzes';
-let arrayQuizz = [];
+let arrayQuizz = {
+	title:"",
+	image:"",
+	questions:"",
+	levels:""
+};
 let validInput = [];
 let quizzQuestion=[{
 	question:''
@@ -60,18 +65,12 @@ function verifyBasicInformation() {
 	if (quizzTitle === "" || quizzTitle.length > 65 || quizzTitle.length < 20 || isValidURL(quizzURL) === false || quizzURL === "" || quizzNumberQuestions === "" || quizzNumberQuestions < 3 || quizzNumberLevels === "" || quizzNumberLevels < 2) {
 		alert("Preencha os dados corretamente");
 	} else {
-		//createArrayObjetos();
+		arrayQuizz.title = quizzTitle;
+		arrayQuizz.image = quizzURL;
+		document.querySelector(".quizzReady img").src = quizzURL;
 		organizeQuestionsLevels(quizzNumberQuestions, quizzNumberLevels);
-		toggleHidden('.section:nth-child(1)');
-		toggleHidden('.section:nth-child(2)');
-	}
-}
-
-function createArrayObjetos() {
-	arrayQuizz = {title: `${quizzTitle}`, 
-				  image: `${quizzURL}`,
-				  questions: [],
-				  levels: []
+		toggleHidden(".section:nth-child(1)");
+		toggleHidden(".section:nth-child(2)");
 	}
 }
 
@@ -124,22 +123,6 @@ function organizeQuestionsLevels(responseUm, responseDois) {
 	}
 }
 
-function verifyQuizzLevels() {
-	let levelTitle = document.querySelector(".nivelQuizz input:nth-child(2)").value;
-	console.log(levelTitle);
-	let levelPercentage = document.querySelector(".nivelQuizz input:nth-child(3)").value;
-	console.log(levelPercentage);
-	let levelURL = document.querySelector(".nivelQuizz input:nth-child(4)").value;
-	console.log(levelURL);
-	let levelDescription = document.querySelector(".nivelQuizz input:nth-child(5)").value;
-	console.log(levelDescription);
-
-	if (levelTitle === "" || levelTitle.length < 10 || levelPercentage === "" || levelPercentage < 0 || levelPercentage > 100 || levelURL === "" || isValidURL(levelURL) === false || levelDescription.length < 30 ) {
-		alert("Preencha os dados corretamente");
-	} else {
-		console.log("Finalizou");
-	}
-}
 function verifyQuizzQuestions () {
 	numberOfQuestions = document.querySelectorAll('questionSelector').length;
 	for (let i = 0; i<numberOfQuestions; i++){
@@ -168,7 +151,6 @@ function verifyQuizzQuestions () {
 				isCorrectAnswer:false,
 			}
 		}
-		console.log(incorrecAnswersOBJ)
 		let question={
 			title:document.getElementById(`question${i}`).value,
 			color:document.getElementById(`backgroundColor${i}`).value,
@@ -183,10 +165,12 @@ function verifyQuizzQuestions () {
 		}
 		quizzQuestion [i] =[{question:question}]
 	}
+	console.log(quizzQuestion);
+	arrayQuizz.questions = quizzQuestion;
+	console.log (arrayQuizz);
 	toggleHidden('.section:nth-child(3)');
 	toggleHidden('.section:nth-child(2)');
 }
-	
 
 function verifyIncorrectAnswer (cont){
 	validInput = []
@@ -194,5 +178,34 @@ function verifyIncorrectAnswer (cont){
 		if (document.getElementById(`incorrectAnswer${i}${cont}`).value !=='' && isValidURL(document.getElementById(`incorrectAnswerURL${i}${cont}`).value) === true ) {
 			validInput += [i]
 		}
+	}
+}
+
+function verifyQuizzLevels() {
+	let contador = document.querySelectorAll(".nivelQuizz .nivel").length;
+	let respostasErradasNiveis = 0;
+	let existePorcentagemZero = 0;
+	let levelTitle;
+	let levelPercentage;
+	let levelURL;
+	let levelDescription;
+
+	for (let i = 1; i <= contador; i++) {
+		levelTitle = document.querySelector(`.nivel:nth-child(${i}) input:nth-child(2)`).value;
+		levelPercentage = Number(document.querySelector(`.nivel:nth-child(${i}) input:nth-child(3)`).value);
+		levelURL = document.querySelector(`.nivel:nth-child(${i}) input:nth-child(4)`).value;
+		levelDescription = document.querySelector(`.nivel:nth-child(${i}) input:nth-child(5)`).value;
+		if (levelTitle === "" || levelTitle.length < 10 || levelPercentage === "" || levelPercentage < 0 || levelPercentage > 100 || levelURL === "" || isValidURL(levelURL) === false || levelDescription.length < 30 ) {
+			respostasErradasNiveis += 1;
+		}
+		if (levelPercentage === 0) {
+			existePorcentagemZero += 1;
+		}
+	}	
+	if (respostasErradasNiveis !== 0 || existePorcentagemZero !== 1) {
+		alert("Preencha os dados corretamente");
+	} else {
+		toggleHidden('.section:nth-child(4)');
+		toggleHidden('.section:nth-child(3)');
 	}
 }
