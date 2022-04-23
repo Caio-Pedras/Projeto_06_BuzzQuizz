@@ -141,27 +141,18 @@ function verifyQuizzLevels() {
 	}
 }
 function verifyQuizzQuestions () {
-	
 	numberOfQuestions = document.querySelectorAll('questionSelector').length;
 	for (let i = 0; i<numberOfQuestions; i++){
 		if (document.getElementById(`question${i}`).value.length <= 20 || isValidHex(document.getElementById(`backgroundColor${i}`).value) === false ){
-			console.log(document.getElementById(`question${i}`).value.length)
-			console.log(isValidHex(document.getElementById(`backgroundColor${i}`).value))
-			console.log('erro pergunta')
 		alert("Preencha os dados corretamente");
 		return
 		}
 		else if (document.getElementById(`correctAnswer${i}`).value === '' || isValidURL(document.getElementById(`correctAnswerURL${i}`).value) === false){ 
-			console.log(document.getElementById(`correctAnswer${i}`).value)
-			console.log(isValidURL(document.getElementById(`correctAnswerURL${i}`).value))
-			console.log('erro resposta certa')
 			alert("Preencha os dados corretamente");
 			return
 		}
 		verifyIncorrectAnswer(i)
 		if(validInput === []){
-			console.log(validInput)
-			console.log('erro resposta errada')
 			alert ("Preencha os dados corretamente");
 		}
 		let incorrecAnswersOBJ = [{
@@ -169,6 +160,7 @@ function verifyQuizzQuestions () {
 			image:'',
 			isCorrectAnswer:false
 		}]
+		
 		for (let cont = 0; cont<validInput.length; cont++){
 			incorrecAnswersOBJ [cont] = {
 				text:document.getElementById(`incorrectAnswer${validInput[cont]}${i}`).value,
@@ -190,7 +182,6 @@ function verifyQuizzQuestions () {
 			]
 		}
 		quizzQuestion [i] =[{question:question}]
-	
 	}
 	toggleHidden('.section:nth-child(3)');
 	toggleHidden('.section:nth-child(2)');
