@@ -189,12 +189,11 @@ function verifyQuizzQuestions () {
 				incorrecAnswersOBJ
 			]
 		}
-		console.log(question)
 		quizzQuestion [i] =[{question:question}]
-		
-		console.log(quizzQuestion)
+	
 	}
-
+	toggleHidden('.section:nth-child(3)');
+	toggleHidden('.section:nth-child(2)');
 }
 	
 
