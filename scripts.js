@@ -138,19 +138,6 @@ function verifyQuizzQuestions () {
 		if(validInput === []){
 			alert ("Preencha os dados corretamente");
 		}
-		let incorrecAnswersOBJ = [{
-			text:'',
-			image:'',
-			isCorrectAnswer:false
-		}]
-		
-		for (let cont = 0; cont<validInput.length; cont++){
-			incorrecAnswersOBJ [cont] = {
-				text:document.getElementById(`incorrectAnswer${validInput[cont]}${i}`).value,
-				image:document.getElementById(`incorrectAnswerURL${validInput[cont]}${i}`).value,
-				isCorrectAnswer:false,
-			}
-		}
 		let question={
 			title:document.getElementById(`question${i}`).value,
 			color:document.getElementById(`backgroundColor${i}`).value,
@@ -160,8 +147,14 @@ function verifyQuizzQuestions () {
 					image:document.getElementById(`correctAnswerURL${i}`).value,
 					isCorrectAnswer: true
 				},
-				incorrecAnswersOBJ
 			]
+		}
+		for (let cont = 0; cont<validInput.length; cont++){
+			question.answers[cont+1] = {
+				text:document.getElementById(`incorrectAnswer${validInput[cont]}${i}`).value,
+				image:document.getElementById(`incorrectAnswerURL${validInput[cont]}${i}`).value,
+				isCorrectAnswer:false,
+			}
 		}
 		quizzQuestion [i] =[{question:question}]
 	}
