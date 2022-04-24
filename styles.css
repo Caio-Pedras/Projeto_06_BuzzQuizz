@@ -29,7 +29,7 @@ header{
     min-width: 1065px;
     max-width: 1065px;
 }
-.myQuizz{
+.myQuizzEmpty{
     width: 100%;
     margin: 0 auto;
     height: 180px;
@@ -41,22 +41,47 @@ header{
     padding: 30px 0;
     min-width: 340px;
 }
-.myQuizz button{
+.myQuizzEmpty button{
     border: 1px dashed #EC362D;
     border-radius: 50px;
     font-size: 20px;
-    color:#ec362d;
+    color:#EC362D;
     background-color: #FAFAFA;
     padding: 8px 20px;
     margin-top: 20px;
     cursor: pointer;
 }
-.allQuizz{
-    margin: 80px auto 0 auto;
+
+.quizzesUser > div:nth-child(1) {
+    display: flex;
+    align-items: center;
+}
+
+.minButtonCreateQuizz {
+    margin-left: 17px;
+}
+
+.minButtonCreateQuizz ion-icon {
+    font-size: 35px;
+    color: #EC362D;
+}
+
+.allQuizzServer {
+    margin: 48px auto 0 auto;
+}
+
+.titleUser {
     font-size: 20px;
     font-weight: 700;
     color: #000000;
 }
+
+.titleServer {
+    font-size: 20px;
+    font-weight: 700;
+    color: #000000;
+}
+
 .createQuizz{
     z-index: 1;
     color: #000000;
@@ -176,10 +201,21 @@ img {
 }
 
 @media (max-width: 1100px) {
-    .tittle{
+    .quizzesUser > div:nth-child(1) {
+        margin: auto;
+        max-width: 340px;
+        justify-content: space-between;
+    }
+
+    .titleServer{
         margin: auto;
         max-width: 340px;
     }
+
+    .allQuizzServer {
+        margin-top: 38px;
+    }
+
     .seletorQuizz{
         margin-right: auto;
         margin-left: auto;
@@ -188,7 +224,7 @@ img {
         justify-content: center;
         flex-direction: column;
     }
-    .myQuizz{
+    .myQuizzEmpty{
         width: 340px;
     }
     .container{

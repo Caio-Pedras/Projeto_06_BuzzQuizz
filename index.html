@@ -16,29 +16,40 @@
         <h1>BuzzQuizz</h1>
     </header>
     <div class="container">
-        <div class="myQuizz">
-            <p>Você não criou nenhum</p>
-            <p>quizz ainda :(</p>
-            <button onclick="criarQuizz()">Criar Quizz</button>
-        </div>
-        <div class="allQuizz">
-            <div class="tittle"><h2>Todos os Quizzes</h2></div>
-            <div class="quizzes">
-                <div class = "seletorQuizz">
-                    <div class="quizz">
-                        <img src="http://3.bp.blogspot.com/-P_gTm8O4e34/UG79eZn6EBI/AAAAAAAAAW8/2-VKPd2oHzg/s1600/otaku.jpg">
-                        <div class="banner"></div>
-                        <h3>  Quanto otaku você é?  Quanto otaku você é? Quanto otaku você éaaaa?  </h3>
+        <div class="allQuizzUser">
+            <div class="myQuizzEmpty ">
+                <p>Você não criou nenhum</p>
+                <p>quizz ainda :(</p>
+                <button onclick="criarQuizz()">Criar Quizz</button>
+            </div>
+            <div class="myQuizzFull">
+                <div class="quizzesUser hidden">
+                    <div>
+                        <div class="titleUser"><h2>Seus Quizzes</h2></div>
+                        <div class="minButtonCreateQuizz" onclick="criarQuizz()"><ion-icon name="add-circle-sharp"></ion-icon></div>
                     </div>
-                </div>
-                <div class = "seletorQuizz">
-                    <div class="quizz">
-                        <img src="http://3.bp.blogspot.com/-P_gTm8O4e34/UG79eZn6EBI/AAAAAAAAAW8/2-VKPd2oHzg/s1600/otaku.jpg">
-                        <div class="banner"></div>
-                        <h3>  Quanto otaku você é?  Quanto otaku você é? Quanto otaku você éaaaa?  </h3>
+                    <div class="quizzes">
+                        <div class = "seletorQuizz">
+                            <div class="quizz">
+                                <img src="http://3.bp.blogspot.com/-P_gTm8O4e34/UG79eZn6EBI/AAAAAAAAAW8/2-VKPd2oHzg/s1600/otaku.jpg">
+                                <div class="banner"></div>
+                                <h3>  Quanto otaku você é?  Quanto otaku você é? Quanto otaku você éaaaa?  </h3>
+                            </div>
+                        </div>
+                        <div class = "seletorQuizz">
+                            <div class="quizz">
+                                <img src="http://3.bp.blogspot.com/-P_gTm8O4e34/UG79eZn6EBI/AAAAAAAAAW8/2-VKPd2oHzg/s1600/otaku.jpg">
+                                <div class="banner"></div>
+                                <h3>  Quanto otaku você é?  Quanto otaku você é? Quanto otaku você éaaaa?  </h3>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="allQuizzServer">
+            <div class="titleServer"><h2>Todos os Quizzes</h2></div>
+            <div class="quizzes"></div>
         </div>
     </div>
     <div class="createQuizz hidden">

@@ -36,7 +36,7 @@ function pullQuizz (success){
         	</div>
        	</div>`
     }
-    document.querySelector('.quizzes').innerHTML=quizzInnerHTML;
+    document.querySelector('.allQuizzServer .quizzes').innerHTML=quizzInnerHTML;
 }
 
 function isValidURL(string) {
