@@ -39,10 +39,6 @@ function pullQuizz (success){
     document.querySelector('.quizzes').innerHTML=quizzInnerHTML;
 }
 
-function checkSuccess (success) {
-    console.log(success)
-}
-
 function isValidURL(string) {
 	let res = string.match(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g);
 	return (res !== null)
@@ -54,6 +50,17 @@ function isValidHex (string){
 	}
 	else 
 	return false
+}
+
+function criarQuizz() {
+	arrayQuizz = {
+		title:"",
+		image:"",
+		questions:"",
+		levels:""
+	};
+	toggleHidden('.createQuizz');
+	toggleHidden('.container');
 }
 
 function verifyBasicInformation() {
@@ -156,11 +163,9 @@ function verifyQuizzQuestions () {
 				isCorrectAnswer:false,
 			}
 		}
-		quizzQuestion [i] =[{question:question}]
+		quizzQuestion [i] = question;
 	}
-	console.log(quizzQuestion);
 	arrayQuizz.questions = quizzQuestion;
-	console.log (arrayQuizz);
 	toggleHidden('.section:nth-child(3)');
 	toggleHidden('.section:nth-child(2)');
 }
@@ -182,12 +187,19 @@ function verifyQuizzLevels() {
 	let levelPercentage;
 	let levelURL;
 	let levelDescription;
+	let ArrayLevels = [{
+		title: "",
+		image: "",
+		text: "",
+		minValue: ""
+	}]
 
 	for (let i = 1; i <= contador; i++) {
 		levelTitle = document.querySelector(`.nivel:nth-child(${i}) input:nth-child(2)`).value;
 		levelPercentage = Number(document.querySelector(`.nivel:nth-child(${i}) input:nth-child(3)`).value);
 		levelURL = document.querySelector(`.nivel:nth-child(${i}) input:nth-child(4)`).value;
 		levelDescription = document.querySelector(`.nivel:nth-child(${i}) input:nth-child(5)`).value;
+		ArrayLevels[i-1]={title: levelTitle, image: levelURL, text: levelDescription, minValue: levelPercentage};
 		if (levelTitle === "" || levelTitle.length < 10 || levelPercentage === "" || levelPercentage < 0 || levelPercentage > 100 || levelURL === "" || isValidURL(levelURL) === false || levelDescription.length < 30 ) {
 			respostasErradasNiveis += 1;
 		}
@@ -198,7 +210,13 @@ function verifyQuizzLevels() {
 	if (respostasErradasNiveis !== 0 || existePorcentagemZero !== 1) {
 		alert("Preencha os dados corretamente");
 	} else {
+		arrayQuizz.levels = ArrayLevels;
 		toggleHidden('.section:nth-child(4)');
 		toggleHidden('.section:nth-child(3)');
+		postarQuizz();
 	}
+}
+
+function postarQuizz() {
+	const requisicao = axios.post(API, arrayQuizz);
 }
