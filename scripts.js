@@ -10,8 +10,12 @@ let validInput = [];
 let quizzQuestion=[{
 	question:''
 }];
+let idSelectedQuizz = 0;
+let indexCorrect = 0;
+let acertos = 0;
+let arrayMinValue = [];
 //Start
-
+let test;
 getAPI()
 
 //Funções
@@ -19,16 +23,17 @@ function toggleHidden(element){
     document.querySelector(element).classList.toggle('hidden');
 }
 function getAPI(){
-    const promisse = axios.get(API)
-    promisse.then(pullQuizz)
-    promisse.catch()
+    const promise = axios.get(API)
+    promise.then(pullQuizz)
+    promise.catch()
 }
 function pullQuizz (success){
-    
+    console.log(success)
+	
     let quizzInnerHTML = "";
     for(let i = 0; i < success.data.length; i++){
     	quizzInnerHTML += ` 
-       	<div class = "seletorQuizz">
+       	<div class = "seletorQuizz" id="${success.data[i].id}" onclick="getSelectedQuizz(${success.data[i].id})">
        		<div class="quizz">
         		<img src="${success.data[i].image}">
 				<div class="banner"></div>
@@ -51,7 +56,6 @@ function isValidHex (string){
 	else 
 	return false
 }
-
 function criarQuizz() {
 	arrayQuizz = {
 		title:"",
@@ -62,13 +66,11 @@ function criarQuizz() {
 	toggleHidden('.createQuizz');
 	toggleHidden('.container');
 }
-
 function verifyBasicInformation() {
 	let quizzTitle =  document.querySelector(".infoQuizz input:nth-child(1)").value;
 	let quizzURL = document.querySelector(".infoQuizz input:nth-child(2)").value;
 	let quizzNumberQuestions = document.querySelector(".infoQuizz input:nth-child(3)").value;
 	let quizzNumberLevels = document.querySelector(".infoQuizz input:nth-child(4)").value;
-
 	if (quizzTitle === "" || quizzTitle.length > 65 || quizzTitle.length < 20 || isValidURL(quizzURL) === false || quizzURL === "" || quizzNumberQuestions === "" || quizzNumberQuestions < 3 || quizzNumberLevels === "" || quizzNumberLevels < 2) {
 		alert("Preencha os dados corretamente");
 	} else {
@@ -80,7 +82,6 @@ function verifyBasicInformation() {
 		toggleHidden(".section:nth-child(2)");
 	}
 }
-
 function organizeQuestionsLevels(responseUm, responseDois) {
 	let numberQuestions = document.querySelector(".questionsQuizz .inputQuizz");
 	let numberLevels = document.querySelector(".nivelQuizz .inputQuizz");
@@ -129,9 +130,8 @@ function organizeQuestionsLevels(responseUm, responseDois) {
 		`;
 	}
 }
-
 function verifyQuizzQuestions () {
-	numberOfQuestions = document.querySelectorAll('questionSelector').length;
+	numberOfQuestions = document.querySelectorAll('.questionSelector').length;
 	for (let i = 0; i<numberOfQuestions; i++){
 		if (document.getElementById(`question${i}`).value.length <= 20 || isValidHex(document.getElementById(`backgroundColor${i}`).value) === false ){
 		alert("Preencha os dados corretamente");
@@ -163,13 +163,12 @@ function verifyQuizzQuestions () {
 				isCorrectAnswer:false,
 			}
 		}
-		quizzQuestion [i] = question;
+		quizzQuestion[i] = question;
 	}
 	arrayQuizz.questions = quizzQuestion;
 	toggleHidden('.section:nth-child(3)');
 	toggleHidden('.section:nth-child(2)');
 }
-
 function verifyIncorrectAnswer (cont){
 	validInput = []
 	for (let i = 1; i<4; i++){
@@ -178,7 +177,6 @@ function verifyIncorrectAnswer (cont){
 		}
 	}
 }
-
 function verifyQuizzLevels() {
 	let contador = document.querySelectorAll(".nivelQuizz .nivel").length;
 	let respostasErradasNiveis = 0;
@@ -193,7 +191,6 @@ function verifyQuizzLevels() {
 		text: "",
 		minValue: ""
 	}]
-
 	for (let i = 1; i <= contador; i++) {
 		levelTitle = document.querySelector(`.nivel:nth-child(${i}) input:nth-child(2)`).value;
 		levelPercentage = Number(document.querySelector(`.nivel:nth-child(${i}) input:nth-child(3)`).value);
@@ -216,7 +213,158 @@ function verifyQuizzLevels() {
 		postarQuizz();
 	}
 }
-
 function postarQuizz() {
 	const requisicao = axios.post(API, arrayQuizz);
+}
+function getSelectedQuizz (id) {
+	idSelectedQuizz = id
+	indexCorrect = 0
+	const promise = axios.get(`${API}/${id}`);
+	promise.then(openQuizz)
+}
+function openQuizz(success){
+	printLevel(success)
+	toggleHidden('.answerQuizz')
+	toggleHidden('.container')
+	window.scrollTo(0, 0)
+	test = success
+	let numberOfQuestions = success.data.questions.length;
+	document.querySelector(".quizzHeader").innerHTML = `<img  src="${success.data.image}">
+	<div class="bannerQuizzHeader"></div>
+	<h1>${success.data.title}</h1>`
+	let questionsHTML = document.querySelector(".questions")
+	questionsHTML.innerHTML = ""
+	let HTML=''
+	for(let i = 0; i<numberOfQuestions; i++){
+		let HTMLHeader = ''
+		let HTMLContent= ''
+		HTMLHeader = `           
+		<div class="question">
+			<div class="questionTitle" style="background-color:${success.data.questions[i].color}">
+				<p>${success.data.questions[i].title}</p>
+			</div>`;
+		let numberOfAnswer = success.data.questions[i].answers.length
+		let arrAnswer = []
+		for (let j = 0; j<numberOfAnswer; j++){
+			arrAnswer[j] = `<div class="answer" onclick="selectAnswer (this)">
+			<img src="${success.data.questions[i].answers[j].image}">
+			<p class="${success.data.questions[i].answers[j].isCorrectAnswer} coverColor" >
+			${success.data.questions[i].answers[j].text}</p>
+			</div>
+			`
+		}
+		shuffle(arrAnswer)
+		HTMLContent = concatenarArray(arrAnswer)
+		HTML += `${HTMLHeader}
+		<div class="allAnswer">
+		${HTMLContent}
+		</div>
+		</div>
+		`		
+	}
+	questionsHTML.innerHTML = HTML;
+}
+function shuffle(array) {
+	let currentIndex = array.length,  randomIndex;
+  
+	while (currentIndex != 0) {
+  
+	  randomIndex = Math.floor(Math.random() * currentIndex);
+	  currentIndex--;
+	  [array[currentIndex], array[randomIndex]] = [
+		array[randomIndex], array[currentIndex]];
+	}
+	return array;
+}
+function concatenarArray(array){
+	let string = ""
+	for (let i = 0; i<array.length; i++){
+		string += array[i]
+	}
+	return string
+}
+
+function selectAnswer(clicked){
+	console.log(clicked)
+	let element = clicked.parentElement.querySelectorAll('.answer')
+	let elementText= clicked.parentElement.querySelectorAll('.answer p')
+	console.log(elementText)
+	let numberOfAnswer = element.length;
+	test=elementText
+	for(let i = 0; i<numberOfAnswer; i++){
+		elementText[i].classList.remove('coverColor')
+		element[i].classList.add('alreadyClicked')
+		if (element[i] !== clicked){
+		element[i].innerHTML += `<div class="filter"></div>`
+		}
+		if (element[i] === clicked && elementText[i].classList.value === 'true'){
+			acertos++
+		}
+	}
+	// setTimeout( document.querySelector('.question').scrollIntoView(),2000)
+	lastAnswer()
+}
+function lastAnswer(){
+	let numberOfQuestions = document.querySelectorAll('.question').length;
+	let totalNumber = document.querySelectorAll('.answer').length;
+	let clickedNumber = document.querySelectorAll('.alreadyClicked').length;
+	let percentual =(acertos/numberOfQuestions)*100
+	percentual = percentual.toFixed(0)
+	if (percentual ===null) {
+		percentual =0
+	}
+	if (totalNumber === clickedNumber){ 
+		toggleHidden('.result')
+		let result = calcResult()
+		hideOtherLevels (result)
+		let title =document.getElementById(`${result}Title`)
+		title.innerHTML = `<p>${percentual}% de acerto: você é praticamente um ${title.innerText}</p>`
+	}
+	
+}
+function printLevel (success){
+	arrayMinValue = []
+	for (let i = 0; i < success.data.levels.length; i++){
+		arrayMinValue[i] = Number(success.data.levels[i].minValue)
+	}
+	arrayMinValue.sort((a,b) => b-a)	
+	let numberOfLevels = success.data.levels.length;
+	let resultContent = document.querySelector(".result");
+	resultContent.innerHTML=''
+	let resultInnerHTML =''
+	for (let i = 0; i<numberOfLevels; i++){
+		resultInnerHTML += `
+		<div class="resultSelector" id="${success.data.levels[i].minValue}">
+			<div class="resultTitle" id="${success.data.levels[i].minValue}Title">
+				<p>${success.data.levels[i].title}</p>
+			</div>
+			<div class="resultContainer">
+				<div class="imgResult">
+				<img src="${success.data.levels[i].image}">
+				</div>
+				<p>${success.data.levels[i].text}</p>
+			</div>
+		</div>
+		`
+	}
+	resultContent.innerHTML=resultInnerHTML
+}
+function calcResult (){
+	let numberOfQuestions = document.querySelectorAll('.question').length;
+	let numberOfLeves = arrayMinValue.length;
+	let result = (acertos/numberOfQuestions) *100
+	for(let i = 0; i < numberOfLeves; i++){
+		if (result>+arrayMinValue[i]) {
+			result = arrayMinValue[i]
+			return result
+		}
+	}
+	result = 0
+	return result
+}
+function hideOtherLevels (result){
+	for (let i = 0; i<arrayMinValue.length; i++){
+		if (arrayMinValue[i] !== result)
+		document.getElementById(`${arrayMinValue[i]}`).classList.toggle('hidden')
+	}
 }
