@@ -23,25 +23,58 @@ function toggleHidden(element){
     document.querySelector(element).classList.toggle('hidden');
 }
 function getAPI(){
-    const promise = axios.get(API)
-    promise.then(pullQuizz)
-    promise.catch()
+	if (localStorage.length >= 1) {
+		toggleHidden(".myQuizzEmpty");
+		toggleHidden(".myQuizzFull");
+	}
+    const promisse = axios.get(API);
+    promisse.then(pullQuizz);
+    promisse.catch();
 }
 function pullQuizz (success){
-    console.log(success)
-	
-    let quizzInnerHTML = "";
-    for(let i = 0; i < success.data.length; i++){
-    	quizzInnerHTML += ` 
-       	<div class = "seletorQuizz" id="${success.data[i].id}" onclick="getSelectedQuizz(${success.data[i].id})">
-       		<div class="quizz">
-        		<img src="${success.data[i].image}">
-				<div class="banner"></div>
-        		<h3> ${success.data[i].title}</h3>
-        	</div>
-       	</div>`
-    }
-    document.querySelector('.quizzes').innerHTML=quizzInnerHTML;
+    let quizzServer = document.querySelector(".allQuizzServer .quizzes");
+	let quizzUser = document.querySelector(".quizzesUser .quizzes");
+	let idQuizz;
+	let promisse;
+	let contador;
+	quizzUser.innerHTML = "";
+	for(let i = 1; i <= localStorage.length; i++) {
+		idQuizz = localStorage.getItem(`ID${i}`);
+		promisse = axios.get(`https://mock-api.driven.com.br/api/v6/buzzquizz/quizzes/${idQuizz}`);
+		promisse.then(function (response) {
+			quizzUser.innerHTML += `
+				<div class = "seletorQuizz" id="${response.data.id}" onclick="getSelectedQuizz(${response.data.id})">
+				<div class="quizz">
+					<img src="${response.data.image}">
+					<div class="banner"></div>
+					<h3>${response.data.title}</h3>
+				</div>
+				</div>
+			`;
+		});	
+	}
+	quizzServer.innerHTML = "";
+
+	for(let k = 0; k < success.data.length; k++){
+		for (let j = 1; j <= localStorage.length; j++) {
+			idQuizz = Number(localStorage.getItem(`ID${j}`));
+			if (idQuizz === success.data[k].id) {
+				contador += 1;
+			}
+		}
+		if (contador === 0) {
+			quizzServer.innerHTML += ` 
+				<div class = "seletorQuizz" id="${success.data[k].id}" onclick="getSelectedQuizz(${success.data[k].id})">
+					<div class="quizz" >
+						<img src="${success.data[k].image}">
+						<div class="banner"></div>
+						<h3>${success.data[k].title}</h3>
+					</div>
+				</div>
+			`;
+		}
+		contador = 0;
+	}  
 }
 
 function isValidURL(string) {
@@ -90,48 +123,48 @@ function organizeQuestionsLevels(responseUm, responseDois) {
 	let cont = 0;
 	for (let j = 1; j <= responseUm; j++) {
 		numberQuestions.innerHTML += `
-		<questionSelector>
-			<div class="question">
-				<p>Pergunta ${j}</p>
-				<input type="text" id="question${cont}" placeholder="Texto da pergunta">
-				<input type="text" id="backgroundColor${cont}" placeholder="Cor de fundo da pergunta">
-			</div>    
-			<div class="correctAnswer">
-				<p>Resposta correta</p>
-				<input type="text" id="correctAnswer${cont}" placeholder="Resposta correta">
-				<input type="url" id="correctAnswerURL${cont}" placeholder="URL da imagem">
-			</div>    
-			<div class="incorrectAnswer">
-				<p>Respostas incorretas</p>
-				<input type="text" id="incorrectAnswer1${cont}" placeholder="Resposta incorreta 1">
-				<input type="url" id="incorrectAnswerURL1${cont}" placeholder="URL da imagem 1">
-			</div>  
-			<div class="incorrectAnswer">        
-				<input type="text" id="incorrectAnswer2${cont}" placeholder="Resposta incorreta 2">
-				<input type="url"id="incorrectAnswerURL2${cont}" placeholder="URL da imagem 2">
-			</div> 
-			<div class="incorrectAnswer">     
-				<input type="text" id="incorrectAnswer3${cont}" placeholder="Resposta incorreta 3">
-				<input type="url"id="incorrectAnswerURL3${cont}" placeholder="URL da imagem 3">
-			</div>
-		</div>                    
+			<questionSelector>
+				<div class="question">
+					<p>Pergunta ${j}</p>
+					<input type="text" id="question${cont}" placeholder="Texto da pergunta">
+					<input type="text" id="backgroundColor${cont}" placeholder="Cor de fundo da pergunta">
+				</div>    
+				<div class="correctAnswer">
+					<p>Resposta correta</p>
+					<input type="text" id="correctAnswer${cont}" placeholder="Resposta correta">
+					<input type="url" id="correctAnswerURL${cont}" placeholder="URL da imagem">
+				</div>    
+				<div class="incorrectAnswer">
+					<p>Respostas incorretas</p>
+					<input type="text" id="incorrectAnswer1${cont}" placeholder="Resposta incorreta 1">
+					<input type="url" id="incorrectAnswerURL1${cont}" placeholder="URL da imagem 1">
+				</div>  
+				<div class="incorrectAnswer">        
+					<input type="text" id="incorrectAnswer2${cont}" placeholder="Resposta incorreta 2">
+					<input type="url"id="incorrectAnswerURL2${cont}" placeholder="URL da imagem 2">
+				</div> 
+				<div class="incorrectAnswer">     
+					<input type="text" id="incorrectAnswer3${cont}" placeholder="Resposta incorreta 3">
+					<input type="url"id="incorrectAnswerURL3${cont}" placeholder="URL da imagem 3">
+				</div>
+			</div>                    
 		`;
 		cont++
 	}
 	for (let i = 1; i <= responseDois; i++) {
 		numberLevels.innerHTML += `
-		<div class="nivel">
+			<div class="nivel">
                 <p>Nivel ${i}</p>
                 <input type="text" minlength="10" placeholder="Título do nível">
                 <input type="number" min ="0" max="100" placeholder="% de acerto mínima">
                 <input type="url" placeholder="URL da imagem do nível">
                 <input type="text" placeholder="Descrição do nível">
-        </div>    
+        	</div>    
 		`;
 	}
 }
 function verifyQuizzQuestions () {
-	numberOfQuestions = document.querySelectorAll('.questionSelector').length;
+	numberOfQuestions = document.querySelectorAll('questionSelector').length;
 	for (let i = 0; i<numberOfQuestions; i++){
 		if (document.getElementById(`question${i}`).value.length <= 20 || isValidHex(document.getElementById(`backgroundColor${i}`).value) === false ){
 		alert("Preencha os dados corretamente");
@@ -214,7 +247,9 @@ function verifyQuizzLevels() {
 	}
 }
 function postarQuizz() {
-	const requisicao = axios.post(API, arrayQuizz);
+	console.log('entrei')
+	const requisicao = axios.post(API, arrayQuizz);	
+	requisicao.then(saveID);
 }
 function getSelectedQuizz (id) {
 	idSelectedQuizz = id
@@ -366,5 +401,14 @@ function hideOtherLevels (result){
 	for (let i = 0; i<arrayMinValue.length; i++){
 		if (arrayMinValue[i] !== result)
 		document.getElementById(`${arrayMinValue[i]}`).classList.toggle('hidden')
-	}
+	} 	
+}
+function saveID() {
+	const contadorID = localStorage.length + 1;
+	const promisse = axios.get(API);
+	promisse.then(function (response) {
+		let id = response.data[0].id;
+		localStorage.setItem(`ID${contadorID}`, id);
+		console.log(contadorID);
+	});
 }
