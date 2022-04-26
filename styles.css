@@ -100,18 +100,26 @@ header{
 .section{
     margin-top: 60px;
 }
+
 .inputQuizz{
     display: flex;
     background-color: #FFFFFF;
     box-shadow: 0px 0px 10px 0px #0000000D;
     flex-direction: column;
     row-gap: 10px;
-    padding: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
     width: 100%; 
     margin-top: 30px;
     height: auto;
     text-align: left;
 }
+
+.infoQuizz .inputQuizz {
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
 .inputQuizz input{
     height: 46px;
     border-radius: 5px;
@@ -133,6 +141,7 @@ header{
     text-align: center;
     border:none;
     margin-top: 60px;
+    margin-bottom: 60px;
     cursor: pointer;
 }
 .section{
@@ -147,9 +156,8 @@ header{
     flex-direction: column;
     row-gap: 10px;
 }
-.inputQuizz div p {
+.inputQuizz p {
     font-size: 20px;
-    margin-bottom: 10px;
 }
 .quizzes{
     display:flex;
@@ -160,6 +168,111 @@ header{
     text-align: center;
     margin-top: 15px;
     column-gap: 20px;
+}
+
+.editQuestionTitle  {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    
+}
+
+.editQuestionTitle p {
+    display: flex;
+    align-items: center;
+    text-align: center;
+}
+
+.editQuestionTitle ion-icon {
+    font-size: 30px;
+}
+
+.editLevelTitle  {
+
+    display: flex;
+    justify-content: space-between;
+}
+
+.editLevelTitle p {
+    display: flex;
+    align-items: center;
+    text-align: center;
+}
+
+.editLevelTitle ion-icon {
+    font-size: 30px;
+}
+
+.questionsQuizz .inputQuizz {
+    margin-bottom: 20px;
+    background-color: #FAFAFA;
+    border: none;
+    box-shadow: none;
+}
+
+.questionSelector {
+    background-color: #FFFFFF;
+    padding: 20px;
+    box-shadow: 0px 0px 10px 0px #0000000D;
+}
+
+.nivelQuizz .inputQuizz {
+    margin-bottom: 20px;
+    background-color: #FAFAFA;
+    border: none;
+    box-shadow: none;
+    padding: 0;
+}
+
+.nivel {
+    padding: 20px;
+    background-color: #FFFFFF;
+    box-shadow: 0px 0px 10px 0px #0000000D;
+    width: 100%;
+}
+
+ion-icon{
+    cursor: pointer;
+}
+
+.quizzReady {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.quizzReady p {
+    margin-bottom: 30px;
+}
+
+.finalImage {
+    position: relative;
+    width: 340px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.finalImage h3 {
+    position: absolute;
+    top: 130px;
+    left: 20px;
+    word-break: break-all;
+    text-align: left;
+    max-width: 300px;
+    color: #FFFFFF;
+}
+
+
+.finalImage .banner {
+    position: absolute;
+    height: 60px;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(0, 0, 0, 0.5) 40%, #000000 100%);
+    left: 0;
+    top: 120px;
+    width: 340px;
 }
 
 img {
@@ -236,12 +349,10 @@ img {
 }
 .question{
     background-color: #FFFFFF;
-    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.05);
     max-width: 100%;
     width: 800px;
     display: flex;
     flex-direction: column;
-    padding: 20px;
     align-items: center;
     justify-content: center;
     margin-bottom: 30px;
@@ -363,6 +474,12 @@ img {
     align-items: center;
     justify-content: center;
 }
+
+.quizzHeader h1 {
+    width: 100%;
+    word-break: break-all;
+}
+
 .alreadyClicked{
     pointer-events: none;
 }
@@ -376,7 +493,7 @@ img {
     color: #000000
 }
 .hidden{
-    display: none;
+    display: none !important;
 }
 @media (max-width: 1100px) {
     .quizzesUser > div:nth-child(1) {

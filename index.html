@@ -61,8 +61,12 @@
         </div>
         <div class="section quizzReady hidden">
             <p>Seu quizz está pronto!</p>
-            <img src="" alt="">
-            <button>Acessar Quizz</button>
+            <div class="finalImage">
+                <img src="" alt="">
+                <div class="banner"></div>
+                <h3></h3>
+            </div>
+            <button onclick="abrirQuizRecente()">Acessar Quizz</button>
             <h4 onclick="window.location.reload()">Voltar para home</h4>
         </div>
     </div>
@@ -85,7 +89,6 @@
         <button onclick="resetQuizz()">Reiniciar Quizz</button>
         <h4 onclick="window.location.reload()">Volta para home</h4>
     </div>
-
 
     <script src="https://unpkg.com/ionicons@5.4.0/dist/ionicons.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>

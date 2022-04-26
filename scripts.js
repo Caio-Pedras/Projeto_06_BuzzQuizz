@@ -102,17 +102,19 @@ function criarQuizz() {
 function verifyBasicInformation() {
 	let quizzTitle =  document.querySelector(".infoQuizz input:nth-child(1)").value;
 	let quizzURL = document.querySelector(".infoQuizz input:nth-child(2)").value;
-	let quizzNumberQuestions = document.querySelector(".infoQuizz input:nth-child(3)").value;
-	let quizzNumberLevels = document.querySelector(".infoQuizz input:nth-child(4)").value;
+	let quizzNumberQuestions = Number(document.querySelector(".infoQuizz input:nth-child(3)").value);
+	let quizzNumberLevels = Number(document.querySelector(".infoQuizz input:nth-child(4)").value);
 	if (quizzTitle === "" || quizzTitle.length > 65 || quizzTitle.length < 20 || isValidURL(quizzURL) === false || quizzURL === "" || quizzNumberQuestions === "" || quizzNumberQuestions < 3 || quizzNumberLevels === "" || quizzNumberLevels < 2) {
 		alert("Preencha os dados corretamente");
 	} else {
 		arrayQuizz.title = quizzTitle;
 		arrayQuizz.image = quizzURL;
 		document.querySelector(".quizzReady img").src = quizzURL;
+		document.querySelector(".quizzReady h3").innerHTML = quizzTitle;
 		organizeQuestionsLevels(quizzNumberQuestions, quizzNumberLevels);
 		toggleHidden(".section:nth-child(1)");
 		toggleHidden(".section:nth-child(2)");
+		window.scrollTo(0, 0);
 	}
 }
 function organizeQuestionsLevels(responseUm, responseDois) {
@@ -123,11 +125,16 @@ function organizeQuestionsLevels(responseUm, responseDois) {
 	let cont = 0;
 	for (let j = 1; j <= responseUm; j++) {
 		numberQuestions.innerHTML += `
-			<questionSelector>
+			<div class="questionSelector">
 				<div class="question">
-					<p>Pergunta ${j}</p>
-					<input type="text" id="question${cont}" placeholder="Texto da pergunta">
-					<input type="text" id="backgroundColor${cont}" placeholder="Cor de fundo da pergunta">
+					<span class="editQuestionTitle">
+						<p>Pergunta ${j}</p>
+						<ion-icon onclick="showQuestion(this)" name="create-outline"></ion-icon>
+					</span>
+					<div>
+						<input type="text" id="question${cont}" placeholder="Texto da pergunta">
+						<input type="text" id="backgroundColor${cont}" placeholder="Cor de fundo da pergunta">
+					</div>
 				</div>    
 				<div class="correctAnswer">
 					<p>Resposta correta</p>
@@ -154,17 +161,22 @@ function organizeQuestionsLevels(responseUm, responseDois) {
 	for (let i = 1; i <= responseDois; i++) {
 		numberLevels.innerHTML += `
 			<div class="nivel">
-                <p>Nivel ${i}</p>
-                <input type="text" minlength="10" placeholder="Título do nível">
-                <input type="number" min ="0" max="100" placeholder="% de acerto mínima">
-                <input type="url" placeholder="URL da imagem do nível">
-                <input type="text" placeholder="Descrição do nível">
+				<span class="editLevelTitle">
+					<p>Nivel ${i}</p>
+					<ion-icon onclick="showLevel(this)" name="create-outline"></ion-icon>
+				</span>
+				<div>
+					<input type="text" minlength="10" placeholder="Título do nível">
+					<input type="number" min ="0" max="100" placeholder="% de acerto mínima">
+					<input type="url" placeholder="URL da imagem do nível">
+					<input type="text" placeholder="Descrição do nível">
+				</div>
         	</div>    
 		`;
 	}
 }
 function verifyQuizzQuestions () {
-	numberOfQuestions = document.querySelectorAll('questionSelector').length;
+	numberOfQuestions = document.querySelectorAll('.questionSelector').length;
 	for (let i = 0; i<numberOfQuestions; i++){
 		if (document.getElementById(`question${i}`).value.length <= 20 || isValidHex(document.getElementById(`backgroundColor${i}`).value) === false ){
 		alert("Preencha os dados corretamente");
@@ -201,6 +213,7 @@ function verifyQuizzQuestions () {
 	arrayQuizz.questions = quizzQuestion;
 	toggleHidden('.section:nth-child(3)');
 	toggleHidden('.section:nth-child(2)');
+	window.scrollTo(0, 0)
 }
 function verifyIncorrectAnswer (cont){
 	validInput = []
@@ -225,10 +238,10 @@ function verifyQuizzLevels() {
 		minValue: ""
 	}]
 	for (let i = 1; i <= contador; i++) {
-		levelTitle = document.querySelector(`.nivel:nth-child(${i}) input:nth-child(2)`).value;
-		levelPercentage = Number(document.querySelector(`.nivel:nth-child(${i}) input:nth-child(3)`).value);
-		levelURL = document.querySelector(`.nivel:nth-child(${i}) input:nth-child(4)`).value;
-		levelDescription = document.querySelector(`.nivel:nth-child(${i}) input:nth-child(5)`).value;
+		levelTitle = document.querySelector(`.nivel:nth-child(${i}) input:nth-child(1)`).value;
+		levelPercentage = Number(document.querySelector(`.nivel:nth-child(${i}) input:nth-child(2)`).value);
+		levelURL = document.querySelector(`.nivel:nth-child(${i}) input:nth-child(3)`).value;
+		levelDescription = document.querySelector(`.nivel:nth-child(${i}) input:nth-child(4)`).value;
 		ArrayLevels[i-1]={title: levelTitle, image: levelURL, text: levelDescription, minValue: levelPercentage};
 		if (levelTitle === "" || levelTitle.length < 10 || levelPercentage === "" || levelPercentage < 0 || levelPercentage > 100 || levelURL === "" || isValidURL(levelURL) === false || levelDescription.length < 30 ) {
 			respostasErradasNiveis += 1;
@@ -243,6 +256,7 @@ function verifyQuizzLevels() {
 		arrayQuizz.levels = ArrayLevels;
 		toggleHidden('.section:nth-child(4)');
 		toggleHidden('.section:nth-child(3)');
+		window.scrollTo(0, 0);
 		postarQuizz();
 	}
 }
@@ -297,9 +311,7 @@ function selectAnswer(clicked){
 		}
 		if (element[i] === clicked && elementText[i].classList.value === 'true'){
 			acertos++
-		}
-		
-		
+		}	
 	}
 	let nextQuestion =document.querySelector('.notClicked')
 	if (nextQuestion !== null ){
@@ -370,8 +382,7 @@ function calcResult (){
 	result = 0
 	return result
 }
-function hideOtherLevels (result){
-	
+function hideOtherLevels (result) {	
 	for (let i = 0; i<arrayMinValue.length; i++){
 		if (arrayMinValue[i] !== result){
 			console.log(arrayMinValue[i])
@@ -388,7 +399,6 @@ function saveID() {
 	promisse.then(function (response) {
 		let id = response.data[0].id;
 		localStorage.setItem(`ID${contadorID}`, id);
-		console.log(contadorID);
 	});
 }
 function startQuizz(success){
@@ -436,4 +446,27 @@ function resetQuizz(){
 }
 function scrollView (element){
 	element.scrollIntoView()
+}
+
+function showQuestion(element) {
+	let pai = element.parentNode.parentNode.parentNode;
+	pai.querySelector(".question div").classList.toggle("hidden");
+	pai.querySelector(".correctAnswer").classList.toggle("hidden");
+	pai.querySelector("div:nth-child(3)").classList.toggle("hidden");
+	pai.querySelector("div:nth-child(4)").classList.toggle("hidden");
+	pai.querySelector("div:nth-child(5)").classList.toggle("hidden");
+}
+
+function showLevel(element) {
+	let pai = element.parentNode.parentNode;
+	pai.querySelector("div:nth-child(2)").classList.toggle("hidden");
+}
+
+function abrirQuizRecente() {
+	const ultimoID = localStorage.length;
+	const ultimoQuizz = localStorage.getItem(`ID${ultimoID}`);
+	console.log(ultimoQuizz);
+	getSelectedQuizz(ultimoQuizz);
+	toggleHidden(".createQuizz")
+	toggleHidden(".container")
 }
