@@ -357,6 +357,12 @@ img {
     left: 0;
     top: 0;
 }
+.resultLevelText{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 .alreadyClicked{
     pointer-events: none;
 }

@@ -258,46 +258,11 @@ function getSelectedQuizz (id) {
 	promise.then(openQuizz)
 }
 function openQuizz(success){
+	test = success
 	printLevel(success)
 	toggleHidden('.answerQuizz')
 	toggleHidden('.container')
-	window.scrollTo(0, 0)
-	test = success
-	let numberOfQuestions = success.data.questions.length;
-	document.querySelector(".quizzHeader").innerHTML = `<img  src="${success.data.image}">
-	<div class="bannerQuizzHeader"></div>
-	<h1>${success.data.title}</h1>`
-	let questionsHTML = document.querySelector(".questions")
-	questionsHTML.innerHTML = ""
-	let HTML=''
-	for(let i = 0; i<numberOfQuestions; i++){
-		let HTMLHeader = ''
-		let HTMLContent= ''
-		HTMLHeader = `           
-		<div class="question">
-			<div class="questionTitle" style="background-color:${success.data.questions[i].color}">
-				<p>${success.data.questions[i].title}</p>
-			</div>`;
-		let numberOfAnswer = success.data.questions[i].answers.length
-		let arrAnswer = []
-		for (let j = 0; j<numberOfAnswer; j++){
-			arrAnswer[j] = `<div class="answer" onclick="selectAnswer (this)">
-			<img src="${success.data.questions[i].answers[j].image}">
-			<p class="${success.data.questions[i].answers[j].isCorrectAnswer} coverColor" >
-			${success.data.questions[i].answers[j].text}</p>
-			</div>
-			`
-		}
-		shuffle(arrAnswer)
-		HTMLContent = concatenarArray(arrAnswer)
-		HTML += `${HTMLHeader}
-		<div class="allAnswer">
-		${HTMLContent}
-		</div>
-		</div>
-		`		
-	}
-	questionsHTML.innerHTML = HTML;
+	startQuizz(success)
 }
 function shuffle(array) {
 	let currentIndex = array.length,  randomIndex;
@@ -320,12 +285,10 @@ function concatenarArray(array){
 }
 
 function selectAnswer(clicked){
-	console.log(clicked)
 	let element = clicked.parentElement.querySelectorAll('.answer')
 	let elementText= clicked.parentElement.querySelectorAll('.answer p')
-	console.log(elementText)
 	let numberOfAnswer = element.length;
-	test=elementText
+	clicked.parentElement.parentElement.classList.remove('notClicked')
 	for(let i = 0; i<numberOfAnswer; i++){
 		elementText[i].classList.remove('coverColor')
 		element[i].classList.add('alreadyClicked')
@@ -335,9 +298,17 @@ function selectAnswer(clicked){
 		if (element[i] === clicked && elementText[i].classList.value === 'true'){
 			acertos++
 		}
+		
+		
 	}
-	// setTimeout( document.querySelector('.question').scrollIntoView(),2000)
-	lastAnswer()
+	let nextQuestion =document.querySelector('.notClicked')
+	if (nextQuestion !== null ){
+	setTimeout(()=>scrollView(nextQuestion),2000)
+	}
+	else{
+	setTimeout(()=>lastAnswer(),2000)	
+	setTimeout(()=>scrollView(document.querySelector('.result')),2000)
+	}
 }
 function lastAnswer(){
 	let numberOfQuestions = document.querySelectorAll('.question').length;
@@ -352,8 +323,8 @@ function lastAnswer(){
 		toggleHidden('.result')
 		let result = calcResult()
 		hideOtherLevels (result)
-		let title =document.getElementById(`${result}Title`)
-		title.innerHTML = `<p>${percentual}% de acerto: você é praticamente um ${title.innerText}</p>`
+		let title =document.getElementById(`${result}Title`).parentNode.querySelector('span')
+		title.innerHTML = `${percentual}%:`
 	}
 	
 }
@@ -371,7 +342,9 @@ function printLevel (success){
 		resultInnerHTML += `
 		<div class="resultSelector" id="${success.data.levels[i].minValue}">
 			<div class="resultTitle" id="${success.data.levels[i].minValue}Title">
-				<p>${success.data.levels[i].title}</p>
+				<div class="resultLevelText">
+				<span></span><p>${success.data.levels[i].title}</p>
+				</div>
 			</div>
 			<div class="resultContainer">
 				<div class="imgResult">
@@ -398,9 +371,15 @@ function calcResult (){
 	return result
 }
 function hideOtherLevels (result){
+	
 	for (let i = 0; i<arrayMinValue.length; i++){
-		if (arrayMinValue[i] !== result)
-		document.getElementById(`${arrayMinValue[i]}`).classList.toggle('hidden')
+		if (arrayMinValue[i] !== result){
+			console.log(arrayMinValue[i])
+			console.log(result)
+		document.getElementById(`${arrayMinValue[i]}`).classList.add('hidden')
+		} else{
+			document.getElementById(`${arrayMinValue[i]}`).classList.remove('hidden')
+		}
 	} 	
 }
 function saveID() {
@@ -411,4 +390,50 @@ function saveID() {
 		localStorage.setItem(`ID${contadorID}`, id);
 		console.log(contadorID);
 	});
+}
+function startQuizz(success){
+	window.scrollTo(0, 0)
+	let numberOfQuestions = success.data.questions.length;
+	document.querySelector(".quizzHeader").innerHTML = `<img  src="${success.data.image}">
+	<div class="bannerQuizzHeader"></div>
+	<h1>${success.data.title}</h1>`
+	let questionsHTML = document.querySelector(".questions")
+	questionsHTML.innerHTML = ""
+	let HTML=''
+	for(let i = 0; i<numberOfQuestions; i++){
+		let HTMLHeader = ''
+		let HTMLContent= ''
+		HTMLHeader = `           
+		<div class="question notClicked">
+			<div class="questionTitle" style="background-color:${success.data.questions[i].color}">
+				<p>${success.data.questions[i].title}</p>
+			</div>`;
+		let numberOfAnswer = success.data.questions[i].answers.length
+		let arrAnswer = []
+		for (let j = 0; j<numberOfAnswer; j++){
+			arrAnswer[j] = `<div class="answer" onclick="selectAnswer (this)">
+			<img src="${success.data.questions[i].answers[j].image}">
+			<p class="${success.data.questions[i].answers[j].isCorrectAnswer} coverColor" >
+			${success.data.questions[i].answers[j].text}</p>
+			</div>
+			`
+		}
+		shuffle(arrAnswer)
+		HTMLContent = concatenarArray(arrAnswer)
+		HTML += `${HTMLHeader}
+		<div class="allAnswer">
+		${HTMLContent}
+		</div>
+		</div>
+		`		
+	}
+	questionsHTML.innerHTML = HTML;
+}
+function resetQuizz(){
+	acertos=0
+	toggleHidden('.result')
+	startQuizz(test)
+}
+function scrollView (element){
+	element.scrollIntoView()
 }
